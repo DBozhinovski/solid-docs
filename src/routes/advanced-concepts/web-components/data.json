@@ -1,0 +1,8 @@
+{
+	"title": "Web Components",
+	"pages": [
+		"wc-basics.mdx",
+		"using-web-components.mdx",
+		"authoring-web-components.mdx"
+	]
+}
