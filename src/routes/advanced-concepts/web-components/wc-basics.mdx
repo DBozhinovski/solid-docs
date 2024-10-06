@@ -7,10 +7,18 @@ These custom elements can be used without depending on a framework being present
 
 When discussing web components in the context of frameworks such as Solid, the discussion can be branched in two categories:
 
-1. Using web components in Solid
-2. Authoring web components via Solid
+1. [Using web components in Solid](/using-web-components)
+2. [Authoring web components via Solid](/authoring-web-components)
 
 It's worth noting that the idea of web components doesn't always translate well to the idea of modern framework components, thus the
-interoperability between the two comes with some caveats which will be highlighted.
+interoperability between the two comes with caveats which will be highlighted.
 
----
+## The Shadow DOM
+
+One of the key pieces of web components is the [Shadow DOM](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM).
+The Shadow DOM allows web components to be rendered in their own DOM tree, thus being completely isolated from
+the "regular" DOM. While useful, it can be a source of confusion when using web components in Solid.
+
+```jsx
+// Example here
+```
