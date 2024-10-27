@@ -1,3 +1,107 @@
 ---
 title: Authoring Web Components
 ---
+
+This guide covers how to create web components using Solid's `solid-element` package. While Solid components and web components have different paradigms, `solid-element` provides a bridge between them.
+
+## Getting Started
+
+```tsx
+import { customElement } from "solid-element";
+
+customElement("my-counter", { count: 0 }, (props) => {
+	return (
+		<div>
+			<p>Count: {props.count}</p>
+		</div>
+	);
+});
+```
+
+## The solid-element Package
+
+- Overview of `solid-element`
+- Installation and setup
+- Key differences from regular Solid components
+
+## Component Definition
+
+### Basic Structure
+
+- Using `customElement`
+- Props definition and defaults
+- Component lifecycle
+
+### Shadow DOM
+
+- Working with shadow DOM
+- Styling within shadow DOM
+- Deciding between shadow and light DOM
+
+## Props and Attributes
+
+### Props
+
+- Prop types and defaults
+- Reactivity
+
+### Managing State
+
+- Using Solid signals in web components
+
+## Events
+
+### Emitting Events // Mostly external links?
+
+- Custom event creation
+- Event typing
+- Bubbling and composition
+
+### Internal Event Handling
+
+- DOM events within web components
+- Event delegation strategies
+
+## Slots and Templates
+
+- Using slots
+- Named slots
+
+## Styling
+
+### Shadow DOM Styling
+
+- Component style isolation
+- CSS custom properties
+- Style inheritance
+- CSS containment
+
+### Light DOM Alternatives
+
+- Styling without shadow DOM
+- Global styles interaction
+
+## Advanced Patterns
+
+### Component Registration
+
+- Manual vs automatic registration
+- Lazy loading strategies
+- Module patterns
+
+### Performance // Might be better off as a guide?
+
+- Optimization techniques
+- Memory management
+- Load time considerations
+
+### Testing // Might be better off as a guide?
+
+- Unit testing web components
+- Integration testing
+- Test utilities
+
+## Best Practices // Might be better off as a guide?
+
+- When to use web components
+- Component design principles
