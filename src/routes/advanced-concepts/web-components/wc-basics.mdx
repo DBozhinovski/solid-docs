@@ -13,12 +13,36 @@ When discussing web components in the context of frameworks such as Solid, the d
 It's worth noting that the idea of web components doesn't always translate well to the idea of modern framework components, thus the
 interoperability between the two comes with caveats which will be highlighted.
 
-## The Shadow DOM
+## Glossary
 
-One of the key pieces of web components is the [Shadow DOM](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM).
-The Shadow DOM allows web components to be rendered in their own DOM tree, thus being completely isolated from
-the "regular" DOM. While useful, it can be a source of confusion when using web components in Solid.
+To understand the concept of web components, it's important to understand the pieces that (can) make up a web component:
 
-```jsx
-// Example here
+- **Custom Elements**: A class that extends the `HTMLElement` class. Put simply, the part that allows you to create a new HTML element. [More on this here](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements).
+- **Shadow DOM**: A set of JavaScript APIs for encapsulating DOM trees and CSS style scoping. This is the part that allows the component to be completely isolated from the rest of the DOM. [More on this here](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM).
+- **Templates** and **Slots**: A mechanism for declaring fragments of UI that can be reused throughout a document. As defined in the standard, slots can only be used in the shadow DOM. [More on this here](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots).
+
+## In Solid
+
+As long as a web component [is registered in the global scope](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements), Solid will be able to render it.
+Assuming we have a web component called `my-component`, we can use it in a Solid component like this:
+
+```tsx
+function MySolidComponent() {
+	return (
+		<div>
+			<my-component />
+		</div>
+	);
+}
 ```
+
+For most intents and purposes, this should just work - the web component will be rendered much like it would in a standard HTML document. However, there are some caveats to be aware of:
+
+- **TypeScript**: Solid will not be able to infer the type of the web component, so you'll have to bring your own type information (or import one from the web component's library you might be using). More on this [here](/using-web-components#typescript).
+- **Styles**: While you can apply styles to the web component, they might not be reflected when the component is rendered - assuming the web component is using the shadow DOM, styles will be scoped to the component. More on this [here](/using-web-components#styles).
+- **Events**: Generally speaking, we can separate the events emmitted by the web component in two categories:
+
+  - **Custom events**: These are events that are emitted by the web component itself.
+  - **DOM events**: These are events that are emitted by the web component's DOM, such as `click` or `submit`.
+
+  More on the specifics of events and how they work in Solid can be found [here](/using-web-components#events).
