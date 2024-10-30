@@ -26,7 +26,7 @@ To understand the concept of web components, it's important to understand the pi
 As long as a web component [is registered in the global scope](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements), Solid will be able to render it.
 Assuming we have a web component called `my-component`, we can use it in a Solid component like this:
 
-```tsx
+```tsx title="./MySolidComponent.tsx"
 function MySolidComponent() {
 	return (
 		<div>

@@ -2,11 +2,13 @@
 title: Using Web Components
 ---
 
-This guide provides a detailed look at using web components within Solid applications. We'll cover the various aspects and considerations when integrating web components into your Solid projects.
+This guide provides a detailed look at using web components within Solid applications. We'll cover the various aspects of integrating web components into your Solid projects.
 
 ## Basic Usage
 
-```tsx
+At a minimum, assuming we have a web component called `my-component` registered in the global scope, we can use it in Solid like this:
+
+```tsx title="./MySolidComponent.tsx"
 function MySolidComponent() {
 	return (
 		<div>
@@ -16,11 +18,84 @@ function MySolidComponent() {
 }
 ```
 
+<Callout>
+
+Note that we're not importing anything when using `<my-component />`, as is the
+case with regular Solid components. We just need to ensure that the web
+component is registered in the global scope.
+
+**Registering** a web component
+means that the current document recognizes the tag name
+`my-component` and associates it with a web component (which in turn, renders a custom element on screen).
+
+While the details of how to register a web component are outside the scope of this
+guide, the [Custom Elements API](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements#registering_a_custom_element)
+provides more detailed documentation and examples on the topic.
+
+Solid also has a way of creating and registering web components, which we'll cover in the [Authoring Web Components](/advanced-concepts/web-components/authoring-web-components) guide.
+
+</Callout>
+
 ## TypeScript Integration
 
-- How to add type information for web components
-- Working with custom element registries
-- Type safety with web component props and events
+If you're using TypeScript, types usually don't work out of the box with web components. However, it's possible to add your own types, and help Solid understand the relevant type information for a web component.
+
+### How to add type information for web components
+
+Let's say `my-component` has a property called `message` that we want to use in Solid, in a type-safe manner. TypeScript will raise errors about two things:
+
+- That it doesn't know about the `<my-component>` tag
+- That `message` is not a valid prop for `<my-component>`
+
+To fix this, we need to inform TypeScript about the new tag name, and the shape of the props (attributes) that `my-component` accepts:
+
+```tsx title="./MySolidComponent.tsx"
+declare module "solid-js" {
+	namespace JSX {
+		interface IntrinsicElements {
+			"my-component": { message: string };
+		}
+	}
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		"my-component": { message: string };
+	}
+}
+```
+
+This type information can be colocated with the component, or in a separate file type definitions file. A full example might look like this:
+
+```tsx title="./MySolidComponent.tsx"
+function MySolidComponent() {
+	return (
+		<div>
+			<my-component message="Hello, web component!" />
+		</div>
+	);
+}
+
+declare module "solid-js" {
+	namespace JSX {
+		interface IntrinsicElements {
+			"my-component": { message: string };
+		}
+	}
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		"my-component": { message: string };
+	}
+}
+```
+
+<Callout type="advanced">
+
+The only two prop (or more precisely, attribute) types that web components can _natively_ "understand" are `string` and `boolean`. Any other data can be passed in as a string, but the web component will have to parse it on the other end.
+
+</Callout>
 
 ## Styling Web Components
 
@@ -69,3 +144,7 @@ function MySolidComponent() {
 - Working with popular web component libraries
 - Framework-specific considerations
 - Known limitations and workarounds
+
+```
+
+```
