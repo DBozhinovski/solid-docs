@@ -68,7 +68,7 @@ declare global {
 This type information can be colocated with the component, or in a separate file type definitions file. A full example might look like this:
 
 ```tsx title="./MySolidComponent.tsx"
-function MySolidComponent() {
+export function MySolidComponent() {
 	return (
 		<div>
 			<my-component message="Hello, web component!" />
@@ -94,26 +94,49 @@ declare global {
 <Callout type="advanced">
 
 The only two prop (or more precisely, attribute) types that web components can _natively_ "understand" are `string` and `boolean`. Any other data can be passed in as a string, but the web component will have to parse it on the other end.
+We'll cover some more advanced TypeScript considerations later in this guide.
 
 </Callout>
 
 ## Styling Web Components
 
-- Understanding shadow DOM style isolation
-- Techniques for styling web components
-- CSS custom properties and parts
-- Working with shadow DOM boundaries
+As with regular HTML elements, web components in Solid, if they **don't use** the [Shadow DOM](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM), can be styled using the `style` attribute and can also use CSS classes via the `class` attribute. [More information in the styling guide.](/guides/styling-your-components)
+
+However, web components that **use** the Shadow DOM to encapsulate styles and markup are an exception. Styles defined via the `style` and `class` attributes simply won't apply.
+
+Any potential styling options are largely dependent on the web component in question. Some web component libraries expose CSS custom properties that can be used to style the component. Others may require the usage of attributes to style the component.
+Refer to the documentation for the web component you'd like to use for more information.
 
 ## Event Handling
 
+When working with web components in Solid, we can split event handling into two categories: Regular DOM events, and custom events.
+
 ### DOM Events
 
-- Working with standard DOM events
-- Event delegation and bubbling (link to event handling page)
+Working with standard DOM events is no different than when working with regular HTML elements and Solid components. Refer to the [event handlers guide](/concepts/components/event-handlers) for more information.
+For example, if we were to listen to a click event on `<my-component>`, we could do so like this:
+
+```tsx
+function MySolidComponent() {
+	return <my-component onClick={() => alert("Clicked!")} />;
+}
+```
 
 ### Custom Events
 
-- Handling custom events from web components
+Any custom events emitted by a web component can be listened to by using the [`on:__`](/reference/jsx-attributes/on) form, as described in the [event handlers guide](/concepts/components/event-handlers).
+
+For example, if we were to listen to a `my-event` event emitted by `<my-component>`, we could do so like this:
+
+```tsx
+function MySolidComponent() {
+	return <my-component on:my-event={() => alert("My event!")} />;
+}
+```
+
+#### Custom events and TypeScript
+
+- Type considerations
 
 ## Props and Attributes
 
